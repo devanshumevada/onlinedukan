@@ -20,7 +20,11 @@ import { USER_LOGIN_FAIL,
         USER_LIST_FAIL,
         USER_LIST_SUCCESS,
         USER_LIST_REQUEST,
-        USER_LIST_RESET} from '../constants/UserConstants';
+        USER_LIST_RESET,
+
+        USER_DELETE_FAIL,
+        USER_DELETE_SUCCESS,
+        USER_DELETE_REQUEST} from '../constants/UserConstants';
 
 import { USER_ORDERS_RESET } from '../constants/OrderConstants';
 import axios from 'axios';
@@ -192,7 +196,36 @@ export const list_users  = () => async (dispatch, getState) => {
 
         }).catch(err=>{
                 dispatch({
-                        type: USER_DETAIL_UPDATE_FAIL,
+                        type: USER_LIST_FAIL,
+                        payload: err.response && err.response.data.detail ? err.response.data.detail : err.message 
+                });
+        });
+}
+
+export const delete_user  = id => async (dispatch, getState) => {
+        dispatch({
+                type: USER_DELETE_REQUEST
+        });
+
+        const state = getState();
+
+        const config = {
+                headers: {
+                        'Content-type': 'application/json',
+                        Authorization: `Bearer ${state.user_login.user_info.token}`
+                }
+        }
+
+        axios.delete(`/api/users/delete/${id}/`, config)
+        .then(resp=>{
+                dispatch({
+                        type: USER_DELETE_SUCCESS,
+                        payload: resp.data
+                });
+
+        }).catch(err=>{
+                dispatch({
+                        type: USER_DELETE_FAIL,
                         payload: err.response && err.response.data.detail ? err.response.data.detail : err.message 
                 });
         });

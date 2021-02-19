@@ -8,7 +8,8 @@ import { user_login_reducer,
 	user_register_reducer, 
 	user_details_reducer, 
 	user_details_update_reducer,
-	users_list_reducer } from './reducers/UserReducer'; 
+	users_list_reducer,
+	user_delete_reducer } from './reducers/UserReducer'; 
 import { order_create_reducer,
 	order_details_reducer,
 	order_payment_reducer,
@@ -26,7 +27,8 @@ const reducer = combineReducers({
 	order_details: order_details_reducer,
 	order_payment: order_payment_reducer,
 	user_orders: user_orders_reducer,
-	users_list: users_list_reducer
+	users_list: users_list_reducer,
+	user_delete: user_delete_reducer
 });
 
 const cart_items_from_storage = localStorage.getItem('cart_items') ? JSON.parse(localStorage.getItem('cart_items')) : [];
