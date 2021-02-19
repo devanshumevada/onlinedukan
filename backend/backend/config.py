@@ -1,0 +1,11 @@
+AWS_DB_ENDPOINT = 'database-1.cgkitf3d3yty.us-east-2.rds.amazonaws.com'
+AWS_DB_PORT = '3306'
+AWS_DB_USERNAME = 'onlinedukan'
+AWS_DB_PASSWORD = 'adminadminadmin'
+
+AWS_IAM_KEY_ID = 'AKIA2FB6SH5367BZ4X6M'
+AWS_IAM_SECRET_ACCESS_KEY = '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'
+
+RAZORPAY_KEY = 'rzp_test_88FTM3Qlo10UZF'
+
+RAZORPAY_SECRET = 'kBHmF0OXGYmH4UMJJRdWRX9o'
