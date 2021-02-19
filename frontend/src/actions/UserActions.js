@@ -2,17 +2,25 @@ import { USER_LOGIN_FAIL,
         USER_LOGIN_SUCCESS, 
         USER_LOGIN_REQUEST, 
         USER_LOGOUT, 
+
         USER_REGISTER_FAIL,
         USER_REGISTER_SUCCESS,
         USER_REGISTER_REQUEST,
+
         USER_DETAIL_FAIL,
         USER_DETAIL_REQUEST,
         USER_DETAIL_SUCCESS,
+
         USER_DETAIL_UPDATE_FAIL,
         USER_DETAIL_UPDATE_SUCCESS,
         USER_DETAIL_UPDATE_REQUEST,
         USER_DETAIL_UPDATE_RESET,
-        USER_DETAILS_RESET} from '../constants/UserConstants';
+        USER_DETAILS_RESET,
+
+        USER_LIST_FAIL,
+        USER_LIST_SUCCESS,
+        USER_LIST_REQUEST,
+        USER_LIST_RESET} from '../constants/UserConstants';
 
 import { USER_ORDERS_RESET } from '../constants/OrderConstants';
 import axios from 'axios';
@@ -57,6 +65,10 @@ export const logout = () => (dispatch) => {
 
         dispatch({
                 type: USER_ORDERS_RESET
+        });
+
+        dispatch({
+                type: USER_LIST_RESET
         });
 }
 
@@ -148,6 +160,35 @@ export const update_user_details  = user => async (dispatch, getState) => {
                 });
 
                 localStorage.setItem('user_info', JSON.stringify(resp.data));
+
+        }).catch(err=>{
+                dispatch({
+                        type: USER_DETAIL_UPDATE_FAIL,
+                        payload: err.response && err.response.data.detail ? err.response.data.detail : err.message 
+                });
+        });
+}
+
+export const list_users  = () => async (dispatch, getState) => {
+        dispatch({
+                type: USER_LIST_REQUEST
+        });
+
+        const state = getState();
+
+        const config = {
+                headers: {
+                        'Content-type': 'application/json',
+                        Authorization: `Bearer ${state.user_login.user_info.token}`
+                }
+        }
+
+        axios.get(`/api/users/`, config)
+        .then(resp=>{
+                dispatch({
+                        type: USER_LIST_SUCCESS,
+                        payload: resp.data
+                });
 
         }).catch(err=>{
                 dispatch({
